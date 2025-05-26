@@ -69,8 +69,7 @@ function StudentList() {
     const fetchSemesters = async () => {
       try {
         const res = await axios.get(
-          "http://super-admin-backend-two.vercel.app
-/api/superadmin/semesters",
+          "http://super-admin-backend-two.vercel.app/api/superadmin/semesters",
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("facultyToken")}`,
@@ -113,12 +112,15 @@ function StudentList() {
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this student?")) {
       try {
-        await axios.delete(`http://super-admin-backend-two.vercel.app
-/api/students/${id}`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("facultyToken")}`,
-          },
-        });
+        await axios.delete(
+          `http://super-admin-backend-two.vercel.app
+/api/students/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("facultyToken")}`,
+            },
+          }
+        );
         fetchStudents();
         alert("Student deleted successfully!");
       } catch (err) {

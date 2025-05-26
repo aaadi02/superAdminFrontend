@@ -29,8 +29,7 @@ function AdmissionForm() {
       setLoadingCastes(true);
       try {
         const res = await axios.get(
-          "http://super-admin-backend-two.vercel.app
-/api/superadmin/castes",
+          "http://super-admin-backend-two.vercel.app/api/superadmin/castes",
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("facultyToken")}`,
@@ -53,30 +52,41 @@ function AdmissionForm() {
       try {
         const [streamRes, departmentRes, semesterRes, subjectRes] =
           await Promise.all([
-            axios.get("http://super-admin-backend-two.vercel.app
-/api/streams", {
+            axios.get("http://super-admin-backend-two.vercel.app/api/streams", {
               headers: {
                 Authorization: `Bearer ${localStorage.getItem("facultyToken")}`,
               },
             }),
-            axios.get("http://super-admin-backend-two.vercel.app
-/api/superadmin/departments", {
-              headers: {
-                Authorization: `Bearer ${localStorage.getItem("facultyToken")}`,
-              },
-            }),
-            axios.get("http://super-admin-backend-two.vercel.app
-/api/superadmin/semesters", {
-              headers: {
-                Authorization: `Bearer ${localStorage.getItem("facultyToken")}`,
-              },
-            }),
-            axios.get("http://super-admin-backend-two.vercel.app
-/api/superadmin/subjects", {
-              headers: {
-                Authorization: `Bearer ${localStorage.getItem("facultyToken")}`,
-              },
-            }),
+            axios.get(
+              "http://super-admin-backend-two.vercel.app/api/superadmin/departments",
+              {
+                headers: {
+                  Authorization: `Bearer ${localStorage.getItem(
+                    "facultyToken"
+                  )}`,
+                },
+              }
+            ),
+            axios.get(
+              "http://super-admin-backend-two.vercel.app/api/superadmin/semesters",
+              {
+                headers: {
+                  Authorization: `Bearer ${localStorage.getItem(
+                    "facultyToken"
+                  )}`,
+                },
+              }
+            ),
+            axios.get(
+              "http://super-admin-backend-two.vercel.app/api/superadmin/subjects",
+              {
+                headers: {
+                  Authorization: `Bearer ${localStorage.getItem(
+                    "facultyToken"
+                  )}`,
+                },
+              }
+            ),
           ]);
 
         const streamsData = streamRes.data || [];
@@ -117,8 +127,7 @@ function AdmissionForm() {
         setLoading(true);
         try {
           const res = await axios.get(
-            `http://super-admin-backend-two.vercel.app
-/api/students/subjects/${formData.semester}/${formData.department}`,
+            `http://super-admin-backend-two.vercel.app/api/students/subjects/${formData.semester}/${formData.department}`,
             {
               headers: {
                 Authorization: `Bearer ${localStorage.getItem("facultyToken")}`,
@@ -204,8 +213,7 @@ function AdmissionForm() {
     try {
       if (editingId) {
         await axios.put(
-          `http://super-admin-backend-two.vercel.app
-/api/students/${editingId}`,
+          `http://super-admin-backend-two.vercel.app/api/students/${editingId}`,
           formData,
           {
             headers: {
@@ -216,12 +224,15 @@ function AdmissionForm() {
         alert("Student updated successfully!");
         setEditingId(null);
       } else {
-        await axios.post("http://super-admin-backend-two.vercel.app
-/api/students", formData, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("facultyToken")}`,
-          },
-        });
+        await axios.post(
+          "http://super-admin-backend-two.vercel.app/api/students",
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("facultyToken")}`,
+            },
+          }
+        );
         alert("Student saved successfully!");
       }
       setFormData({});
