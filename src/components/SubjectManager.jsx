@@ -30,9 +30,12 @@ const SubjectManager = () => {
 
   const fetchStreams = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/streams", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const res = await axios.get(
+        "http://super-admin-backend-two.vercel.app/api/streams",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       setStreams(res.data);
       if (res.data.length > 0) {
         setSelectedStreamId(res.data[0]._id);
@@ -44,9 +47,12 @@ const SubjectManager = () => {
 
   const fetchDepartments = async (streamId) => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/superadmin/departments?streamId=${streamId}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const res = await axios.get(
+        `http://super-admin-backend-two.vercel.app/api/superadmin/departments?streamId=${streamId}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       setDepartments(res.data);
       if (res.data.length > 0) {
         setSelectedDepartmentId(res.data[0]._id);
@@ -58,9 +64,12 @@ const SubjectManager = () => {
 
   const fetchSubjects = async (departmentId) => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/superadmin/subjects?departmentId=${departmentId}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const res = await axios.get(
+        `http://super-admin-backend-two.vercel.app/api/superadmin/subjects?departmentId=${departmentId}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       setSubjects(res.data);
     } catch (err) {
       console.error("Failed to fetch subjects", err);
@@ -71,7 +80,7 @@ const SubjectManager = () => {
     if (!newSubject.trim() || !selectedDepartmentId) return;
     try {
       await axios.post(
-        "http://localhost:5000/api/superadmin/subjects",
+        "http://super-admin-backend-two.vercel.app/api/superadmin/subjects",
         { name: newSubject, department: selectedDepartmentId },
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -86,9 +95,12 @@ const SubjectManager = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/superadmin/subjects/${id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      await axios.delete(
+        `http://super-admin-backend-two.vercel.app/api/superadmin/subjects/${id}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       fetchSubjects(selectedDepartmentId);
     } catch (err) {
       console.error("Error deleting subject", err);
@@ -98,7 +110,7 @@ const SubjectManager = () => {
   const handleEdit = async (id) => {
     try {
       await axios.put(
-        `http://localhost:5000/api/superadmin/subjects/${id}`,
+        `http://super-admin-backend-two.vercel.app/api/superadmin/subjects/${id}`,
         { name: editedSubjectName, department: selectedDepartmentId },
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -231,8 +243,12 @@ const SubjectManager = () => {
         </div>
       ) : (
         <div className="text-center py-12 bg-gray-50 rounded-lg">
-          <p className="text-gray-500">No subjects found for this department.</p>
-          <p className="text-gray-500 mt-2">Add a new subject to get started.</p>
+          <p className="text-gray-500">
+            No subjects found for this department.
+          </p>
+          <p className="text-gray-500 mt-2">
+            Add a new subject to get started.
+          </p>
         </div>
       )}
     </div>

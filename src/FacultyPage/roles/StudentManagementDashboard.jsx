@@ -74,7 +74,8 @@
 //     setLoading(true)
 //     try {
 //       const query = admissionTypeFilter ? `?admissionType=${admissionTypeFilter}` : ""
-//       const res = await axios.get(`http://localhost:5000/api/students${query}`, {
+//       const res = await axios.get(`http://super-admin-backend-two.vercel.app
+/api/students${query}`, {
 //         headers: { Authorization: `Bearer ${localStorage.getItem("facultyToken")}` },
 //       })
 //       setStudents(res.data)
@@ -91,7 +92,8 @@
 //     const fetchCastes = async () => {
 //       setLoadingCastes(true)
 //       try {
-//         const res = await axios.get("http://localhost:5000/api/superadmin/castes", {
+//         const res = await axios.get("http://super-admin-backend-two.vercel.app
+/api/superadmin/castes", {
 //           headers: { Authorization: `Bearer ${localStorage.getItem("facultyToken")}` },
 //         })
 //         setCastes(Array.isArray(res.data) ? res.data : [])
@@ -113,16 +115,20 @@
 //     const fetchData = async () => {
 //       try {
 //         const [streamRes, departmentRes, semesterRes, subjectRes] = await Promise.all([
-//           axios.get("http://localhost:5000/api/streams", {
+//           axios.get("http://super-admin-backend-two.vercel.app
+/api/streams", {
 //             headers: { Authorization: `Bearer ${localStorage.getItem("facultyToken")}` },
 //           }),
-//           axios.get("http://localhost:5000/api/superadmin/departments", {
+//           axios.get("http://super-admin-backend-two.vercel.app
+/api/superadmin/departments", {
 //             headers: { Authorization: `Bearer ${localStorage.getItem("facultyToken")}` },
 //           }),
-//           axios.get("http://localhost:5000/api/superadmin/semesters", {
+//           axios.get("http://super-admin-backend-two.vercel.app
+/api/superadmin/semesters", {
 //             headers: { Authorization: `Bearer ${localStorage.getItem("facultyToken")}` },
 //           }),
-//           axios.get("http://localhost:5000/api/superadmin/subjects", {
+//           axios.get("http://super-admin-backend-two.vercel.app
+/api/superadmin/subjects", {
 //             headers: { Authorization: `Bearer ${localStorage.getItem("facultyToken")}` },
 //           }),
 //         ])
@@ -163,7 +169,8 @@
 //         setLoading(true)
 //         try {
 //           const res = await axios.get(
-//             `http://localhost:5000/api/students/subjects/${formData.semester}/${formData.department}`,
+//             `http://super-admin-backend-two.vercel.app
+/api/students/subjects/${formData.semester}/${formData.department}`,
 //             { headers: { Authorization: `Bearer ${localStorage.getItem("facultyToken")}` } },
 //           )
 //           setCombinedData((prev) => {
@@ -254,13 +261,15 @@
 //     setLoading(true)
 //     try {
 //       if (editingId) {
-//         await axios.put(`http://localhost:5000/api/students/${editingId}`, formData, {
+//         await axios.put(`http://super-admin-backend-two.vercel.app
+/api/students/${editingId}`, formData, {
 //           headers: { Authorization: `Bearer ${localStorage.getItem("facultyToken")}` },
 //         })
 //         alert("Student updated successfully!")
 //         setEditingId(null)
 //       } else {
-//         await axios.post("http://localhost:5000/api/students", formData, {
+//         await axios.post("http://super-admin-backend-two.vercel.app
+/api/students", formData, {
 //           headers: { Authorization: `Bearer ${localStorage.getItem("facultyToken")}` },
 //         })
 //         alert("Student saved successfully!")
@@ -286,7 +295,8 @@
 //   const handleDelete = async (id) => {
 //     if (window.confirm("Are you sure you want to delete this student?")) {
 //       try {
-//         await axios.delete(`http://localhost:5000/api/students/${id}`, {
+//         await axios.delete(`http://super-admin-backend-two.vercel.app
+/api/students/${id}`, {
 //           headers: { Authorization: `Bearer ${localStorage.getItem("facultyToken")}` },
 //         })
 //         fetchStudents()
@@ -300,7 +310,8 @@
 //   const handlePromote = async (id) => {
 //     try {
 //       const response = await axios.put(
-//         `http://localhost:5000/api/students/promote/${id}`,
+//         `http://super-admin-backend-two.vercel.app
+/api/students/promote/${id}`,
 //         {},
 //         {
 //           headers: { Authorization: `Bearer ${localStorage.getItem("facultyToken")}` },
@@ -315,7 +326,8 @@
 
 //   const openBacklogModal = async (studentId) => {
 //     try {
-//       const res = await axios.get(`http://localhost:5000/api/students/${studentId}`, {
+//       const res = await axios.get(`http://super-admin-backend-two.vercel.app
+/api/students/${studentId}`, {
 //         headers: { Authorization: `Bearer ${localStorage.getItem("facultyToken")}` },
 //       })
 //       const student = res.data
@@ -324,7 +336,8 @@
 //       if (semesterId && student.department?._id) {
 //         try {
 //           const subjectsRes = await axios.get(
-//             `http://localhost:5000/api/students/subjects/${semesterId}/${student.department._id}`,
+//             `http://super-admin-backend-two.vercel.app
+/api/students/subjects/${semesterId}/${student.department._id}`,
 //             { headers: { Authorization: `Bearer ${localStorage.getItem("facultyToken")}` } },
 //           )
 //           semesterSubjects = subjectsRes.data
@@ -371,7 +384,8 @@
 //     if (semesterId && backlogModal.departmentId) {
 //       try {
 //         const res = await axios.get(
-//           `http://localhost:5000/api/students/subjects/${semesterId}/${backlogModal.departmentId}`,
+//           `http://super-admin-backend-two.vercel.app
+/api/students/subjects/${semesterId}/${backlogModal.departmentId}`,
 //           { headers: { Authorization: `Bearer ${localStorage.getItem("facultyToken")}` } },
 //         )
 //         if (res.data.length === 0) {
@@ -439,7 +453,8 @@
 //         )
 //         if (!existingBacklog) {
 //           await axios.post(
-//             `http://localhost:5000/api/students/${studentId}/add-backlog`,
+//             `http://super-admin-backend-two.vercel.app
+/api/students/${studentId}/add-backlog`,
 //             { subjectIds: [subjectId], semesterId },
 //             { headers: { Authorization: `Bearer ${localStorage.getItem("facultyToken")}` } },
 //           )
@@ -454,7 +469,8 @@
 //         )
 //         if (backlog) {
 //           await axios.put(
-//             `http://localhost:5000/api/students/${studentId}/update-backlog/${backlog._id}`,
+//             `http://super-admin-backend-two.vercel.app
+/api/students/${studentId}/update-backlog/${backlog._id}`,
 //             { status: "Cleared" },
 //             { headers: { Authorization: `Bearer ${localStorage.getItem("facultyToken")}` } },
 //           )
@@ -463,14 +479,16 @@
 
 //       // Update student with new semesterRecords
 //       await axios.put(
-//         `http://localhost:5000/api/students/${studentId}`,
+//         `http://super-admin-backend-two.vercel.app
+/api/students/${studentId}`,
 //         { semesterRecords: updatedSemesterRecords },
 //         { headers: { Authorization: `Bearer ${localStorage.getItem("facultyToken")}` } },
 //       )
 
 //       alert(`Subject status updated to ${status}!`)
 //       fetchStudents()
-//       const res = await axios.get(`http://localhost:5000/api/students/${studentId}`, {
+//       const res = await axios.get(`http://super-admin-backend-two.vercel.app
+/api/students/${studentId}`, {
 //         headers: { Authorization: `Bearer ${localStorage.getItem("facultyToken")}` },
 //       })
 //       setBacklogModal((prev) => ({ ...prev, student: res.data }))
@@ -1204,7 +1222,8 @@ const StudentManagementDashboard = () => {
         ? `?admissionType=${admissionTypeFilter}`
         : "";
       const res = await axios.get(
-        `http://localhost:5000/api/students${query}`,
+        `http://super-admin-backend-two.vercel.app
+/api/students${query}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("facultyToken")}`,
@@ -1226,7 +1245,8 @@ const StudentManagementDashboard = () => {
       setLoadingCastes(true);
       try {
         const res = await axios.get(
-          "http://localhost:5000/api/superadmin/castes",
+          "http://super-admin-backend-two.vercel.app
+/api/superadmin/castes",
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("facultyToken")}`,
@@ -1253,22 +1273,26 @@ const StudentManagementDashboard = () => {
       try {
         const [streamRes, departmentRes, semesterRes, subjectRes] =
           await Promise.all([
-            axios.get("http://localhost:5000/api/streams", {
+            axios.get("http://super-admin-backend-two.vercel.app
+/api/streams", {
               headers: {
                 Authorization: `Bearer ${localStorage.getItem("facultyToken")}`,
               },
             }),
-            axios.get("http://localhost:5000/api/superadmin/departments", {
+            axios.get("http://super-admin-backend-two.vercel.app
+/api/superadmin/departments", {
               headers: {
                 Authorization: `Bearer ${localStorage.getItem("facultyToken")}`,
               },
             }),
-            axios.get("http://localhost:5000/api/superadmin/semesters", {
+            axios.get("http://super-admin-backend-two.vercel.app
+/api/superadmin/semesters", {
               headers: {
                 Authorization: `Bearer ${localStorage.getItem("facultyToken")}`,
               },
             }),
-            axios.get("http://localhost:5000/api/superadmin/subjects", {
+            axios.get("http://super-admin-backend-two.vercel.app
+/api/superadmin/subjects", {
               headers: {
                 Authorization: `Bearer ${localStorage.getItem("facultyToken")}`,
               },
@@ -1313,7 +1337,8 @@ const StudentManagementDashboard = () => {
         setLoading(true);
         try {
           const res = await axios.get(
-            `http://localhost:5000/api/students/subjects/${formData.semester}/${formData.department}`,
+            `http://super-admin-backend-two.vercel.app
+/api/students/subjects/${formData.semester}/${formData.department}`,
             {
               headers: {
                 Authorization: `Bearer ${localStorage.getItem("facultyToken")}`,
@@ -1413,7 +1438,8 @@ const StudentManagementDashboard = () => {
     try {
       if (editingId) {
         await axios.put(
-          `http://localhost:5000/api/students/${editingId}`,
+          `http://super-admin-backend-two.vercel.app
+/api/students/${editingId}`,
           formData,
           {
             headers: {
@@ -1424,7 +1450,8 @@ const StudentManagementDashboard = () => {
         alert("Student updated successfully!");
         setEditingId(null);
       } else {
-        await axios.post("http://localhost:5000/api/students", formData, {
+        await axios.post("http://super-admin-backend-two.vercel.app
+/api/students", formData, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("facultyToken")}`,
           },
@@ -1452,7 +1479,8 @@ const StudentManagementDashboard = () => {
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this student?")) {
       try {
-        await axios.delete(`http://localhost:5000/api/students/${id}`, {
+        await axios.delete(`http://super-admin-backend-two.vercel.app
+/api/students/${id}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("facultyToken")}`,
           },
@@ -1468,7 +1496,8 @@ const StudentManagementDashboard = () => {
   const handlePromote = async (id) => {
     try {
       const response = await axios.put(
-        `http://localhost:5000/api/students/promote/${id}`,
+        `http://super-admin-backend-two.vercel.app
+/api/students/promote/${id}`,
         {},
         {
           headers: {
@@ -1488,7 +1517,8 @@ const StudentManagementDashboard = () => {
   const openBacklogModal = async (studentId) => {
     try {
       const res = await axios.get(
-        `http://localhost:5000/api/students/${studentId}`,
+        `http://super-admin-backend-two.vercel.app
+/api/students/${studentId}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("facultyToken")}`,
@@ -1501,7 +1531,8 @@ const StudentManagementDashboard = () => {
       if (semesterId && student.department?._id) {
         try {
           const subjectsRes = await axios.get(
-            `http://localhost:5000/api/students/subjects/${semesterId}/${student.department._id}`,
+            `http://super-admin-backend-two.vercel.app
+/api/students/subjects/${semesterId}/${student.department._id}`,
             {
               headers: {
                 Authorization: `Bearer ${localStorage.getItem("facultyToken")}`,
@@ -1559,7 +1590,8 @@ const StudentManagementDashboard = () => {
     if (semesterId && backlogModal.departmentId) {
       try {
         const res = await axios.get(
-          `http://localhost:5000/api/students/subjects/${semesterId}/${backlogModal.departmentId}`,
+          `http://super-admin-backend-two.vercel.app
+/api/students/subjects/${semesterId}/${backlogModal.departmentId}`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("facultyToken")}`,
@@ -1646,7 +1678,8 @@ const StudentManagementDashboard = () => {
         );
         if (!existingBacklog) {
           await axios.post(
-            `http://localhost:5000/api/students/${studentId}/add-backlog`,
+            `http://super-admin-backend-two.vercel.app
+/api/students/${studentId}/add-backlog`,
             { subjectIds: [subjectId], semesterId },
             {
               headers: {
@@ -1665,7 +1698,8 @@ const StudentManagementDashboard = () => {
         );
         if (backlog) {
           await axios.put(
-            `http://localhost:5000/api/students/${studentId}/update-backlog/${backlog._id}`,
+            `http://super-admin-backend-two.vercel.app
+/api/students/${studentId}/update-backlog/${backlog._id}`,
             { status: "Cleared" },
             {
               headers: {
@@ -1678,7 +1712,8 @@ const StudentManagementDashboard = () => {
 
       // Update student with new semesterRecords
       await axios.put(
-        `http://localhost:5000/api/students/${studentId}`,
+        `http://super-admin-backend-two.vercel.app
+/api/students/${studentId}`,
         { semesterRecords: updatedSemesterRecords },
         {
           headers: {
@@ -1690,7 +1725,8 @@ const StudentManagementDashboard = () => {
       alert(`Subject status updated to ${status}!`);
       fetchStudents();
       const res = await axios.get(
-        `http://localhost:5000/api/students/${studentId}`,
+        `http://super-admin-backend-two.vercel.app
+/api/students/${studentId}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("facultyToken")}`,

@@ -1,118 +1,121 @@
-// import React, { useEffect, useState } from "react";
-// import axios from "axios";
+// // import React, { useEffect, useState } from "react";
+// // import axios from "axios";
 
-// const RoleAssignmentManager = () => {
-//   const [facultyList, setFacultyList] = useState([]);
-//   const employmentStatuses = ["Probation Period", "Permanent Employee"];
-//   const token = localStorage.getItem("token");
+// // const RoleAssignmentManager = () => {
+// //   const [facultyList, setFacultyList] = useState([]);
+// //   const employmentStatuses = ["Probation Period", "Permanent Employee"];
+// //   const token = localStorage.getItem("token");
 
-//   useEffect(() => {
-//     fetchFaculty();
-//   }, []);
+// //   useEffect(() => {
+// //     fetchFaculty();
+// //   }, []);
 
-//   const fetchFaculty = async () => {
-//     try {
-//       const res = await axios.get("http://localhost:5000/api/faculty", {
-//         headers: { Authorization: `Bearer ${token}` },
-//       });
+// //   const fetchFaculty = async () => {
+// //     try {
+// //       const res = await axios.get("http://super-admin-backend-two.vercel.app
+// /api/faculty", {
+// //         headers: { Authorization: `Bearer ${token}` },
+// //       });
 
-//       // Add editable status field
-//       const withEditable = res.data.map((faculty) => ({
-//         ...faculty,
-//         updatedStatus: faculty.employmentStatus || "Probation Period",
-//       }));
+// //       // Add editable status field
+// //       const withEditable = res.data.map((faculty) => ({
+// //         ...faculty,
+// //         updatedStatus: faculty.employmentStatus || "Probation Period",
+// //       }));
 
-//       setFacultyList(withEditable);
-//     } catch (err) {
-//       console.error("Error fetching faculty:", err);
-//     }
-//   };
+// //       setFacultyList(withEditable);
+// //     } catch (err) {
+// //       console.error("Error fetching faculty:", err);
+// //     }
+// //   };
 
-//   const handleStatusChange = (id, value) => {
-//     setFacultyList((prev) =>
-//       prev.map((faculty) =>
-//         faculty._id === id ? { ...faculty, updatedStatus: value } : faculty
-//       )
-//     );
-//   };
+// //   const handleStatusChange = (id, value) => {
+// //     setFacultyList((prev) =>
+// //       prev.map((faculty) =>
+// //         faculty._id === id ? { ...faculty, updatedStatus: value } : faculty
+// //       )
+// //     );
+// //   };
 
-//   const handleSave = async (id) => {
-//     const faculty = facultyList.find((f) => f._id === id);
-//     try {
-//       await axios.put(
-//         `http://localhost:5000/api/faculty/${id}/status`,
-//         {
-//           employmentStatus: faculty.updatedStatus,
-//         },
-//         {
-//           headers: { Authorization: `Bearer ${token}` },
-//         }
-//       );
-//       alert("Employment status updated.");
-//     } catch (err) {
-//       console.error("Error updating status:", err);
-//       alert("Update failed.");
-//     }
-//   };
+// //   const handleSave = async (id) => {
+// //     const faculty = facultyList.find((f) => f._id === id);
+// //     try {
+// //       await axios.put(
+// //         `http://super-admin-backend-two.vercel.app
+// /api/faculty/${id}/status`,
+// //         {
+// //           employmentStatus: faculty.updatedStatus,
+// //         },
+// //         {
+// //           headers: { Authorization: `Bearer ${token}` },
+// //         }
+// //       );
+// //       alert("Employment status updated.");
+// //     } catch (err) {
+// //       console.error("Error updating status:", err);
+// //       alert("Update failed.");
+// //     }
+// //   };
 
-//   const handleDelete = async (id) => {
-//     if (!window.confirm("Are you sure you want to delete this faculty?")) return;
-//     try {
-//       await axios.delete(`http://localhost:5000/api/faculty/${id}`, {
-//         headers: { Authorization: `Bearer ${token}` },
-//       });
-//       setFacultyList(facultyList.filter((f) => f._id !== id));
-//       alert("Faculty deleted.");
-//     } catch (err) {
-//       console.error("Error deleting faculty:", err);
-//       alert("Deletion failed.");
-//     }
-//   };
+// //   const handleDelete = async (id) => {
+// //     if (!window.confirm("Are you sure you want to delete this faculty?")) return;
+// //     try {
+// //       await axios.delete(`http://super-admin-backend-two.vercel.app
+// /api/faculty/${id}`, {
+// //         headers: { Authorization: `Bearer ${token}` },
+// //       });
+// //       setFacultyList(facultyList.filter((f) => f._id !== id));
+// //       alert("Faculty deleted.");
+// //     } catch (err) {
+// //       console.error("Error deleting faculty:", err);
+// //       alert("Deletion failed.");
+// //     }
+// //   };
 
-//   return (
-//     <div>
-//       <h3>Manage Non-Teaching Faculty</h3>
-//       <table border="1" cellPadding="10">
-//         <thead>
-//           <tr>
-//             <th>Name</th>
-//             <th>Role</th>
-//             <th>Employment Status</th>
-//             <th>Actions</th>
-//           </tr>
-//         </thead>
-//         <tbody>
-//           {facultyList.map((faculty) => (
-//             <tr key={faculty._id}>
-//               <td>{faculty.name}</td>
-//               <td>{faculty.role}</td>
-//               <td>
-//                 <select
-//                   value={faculty.updatedStatus}
-//                   onChange={(e) =>
-//                     handleStatusChange(faculty._id, e.target.value)
-//                   }
-//                 >
-//                   {employmentStatuses.map((status) => (
-//                     <option key={status} value={status}>
-//                       {status}
-//                     </option>
-//                   ))}
-//                 </select>
-//               </td>
-//               <td>
-//                 <button onClick={() => handleSave(faculty._id)}>Save</button>{" "}
-//                 <button onClick={() => handleDelete(faculty._id)}>Delete</button>
-//               </td>
-//             </tr>
-//           ))}
-//         </tbody>
-//       </table>
-//     </div>
-//   );
-// };
+// //   return (
+// //     <div>
+// //       <h3>Manage Non-Teaching Faculty</h3>
+// //       <table border="1" cellPadding="10">
+// //         <thead>
+// //           <tr>
+// //             <th>Name</th>
+// //             <th>Role</th>
+// //             <th>Employment Status</th>
+// //             <th>Actions</th>
+// //           </tr>
+// //         </thead>
+// //         <tbody>
+// //           {facultyList.map((faculty) => (
+// //             <tr key={faculty._id}>
+// //               <td>{faculty.name}</td>
+// //               <td>{faculty.role}</td>
+// //               <td>
+// //                 <select
+// //                   value={faculty.updatedStatus}
+// //                   onChange={(e) =>
+// //                     handleStatusChange(faculty._id, e.target.value)
+// //                   }
+// //                 >
+// //                   {employmentStatuses.map((status) => (
+// //                     <option key={status} value={status}>
+// //                       {status}
+// //                     </option>
+// //                   ))}
+// //                 </select>
+// //               </td>
+// //               <td>
+// //                 <button onClick={() => handleSave(faculty._id)}>Save</button>{" "}
+// //                 <button onClick={() => handleDelete(faculty._id)}>Delete</button>
+// //               </td>
+// //             </tr>
+// //           ))}
+// //         </tbody>
+// //       </table>
+// //     </div>
+// //   );
+// // };
 
-// export default RoleAssignmentManager;
+// // export default RoleAssignmentManager;
 
 import React, { useEffect, useState } from "react";
 import { UserX, UserCheck, Save, Trash2, RefreshCw, Users } from "lucide-react";
@@ -132,7 +135,7 @@ const RoleAssignmentManager = () => {
     setLoading(true);
     try {
       const response = await fetch(
-        "http://localhost:5000/api/superadmin/faculties",
+        "http://super-admin-backend-two.vercel.app/api/superadmin/faculties",
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -175,7 +178,8 @@ const RoleAssignmentManager = () => {
     const faculty = facultyList.find((f) => f._id === id);
     try {
       const response = await fetch(
-        `http://localhost:5000/api/faculty/${id}/status`,
+        `http://super-admin-backend-two.vercel.app
+/api/faculty/${id}/status`,
         {
           method: "PUT",
           headers: {
@@ -211,10 +215,14 @@ const RoleAssignmentManager = () => {
     if (!window.confirm("Are you sure you want to delete this faculty member?"))
       return;
     try {
-      const response = await fetch(`http://localhost:5000/api/faculty/${id}`, {
-        method: "DELETE",
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const response = await fetch(
+        `http://super-admin-backend-two.vercel.app
+/api/faculty/${id}`,
+        {
+          method: "DELETE",
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Failed to delete faculty");

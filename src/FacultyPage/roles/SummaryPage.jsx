@@ -70,10 +70,14 @@ useEffect(() => {
                 departmentsResponse,
                 streamsResponse
             ] = await Promise.all([
-                fetch('http://localhost:5000/api/students'),
-                fetch('http://localhost:5000/api/superadmin/castes'),
-                fetch('http://localhost:5000/api/superadmin/departments'),
-                fetch('http://localhost:5000/api/streams')
+                fetch('http://super-admin-backend-two.vercel.app
+/api/students'),
+                fetch('http://super-admin-backend-two.vercel.app
+/api/superadmin/castes'),
+                fetch('http://super-admin-backend-two.vercel.app
+/api/superadmin/departments'),
+                fetch('http://super-admin-backend-two.vercel.app
+/api/streams')
             ]);
 
             // Check if responses are successful

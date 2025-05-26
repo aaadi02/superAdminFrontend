@@ -1,89 +1,115 @@
-import { useEffect, useState } from "react"
-import axios from "axios"
-import { PlusCircle, Edit2, Trash2, X, Check, Loader2, BookOpen, School } from "lucide-react"
+import { useEffect, useState } from "react";
+import axios from "axios";
+import {
+  PlusCircle,
+  Edit2,
+  Trash2,
+  X,
+  Check,
+  Loader2,
+  BookOpen,
+  School,
+} from "lucide-react";
 
 const SemesterManager = () => {
-  const [semesters, setSemesters] = useState([])
-  const [subjects, setSubjects] = useState([])
-  const [newSemester, setNewSemester] = useState({ number: "", subjectIds: [] })
-  const [editingSemester, setEditingSemester] = useState(null)
-  const [error, setError] = useState("")
-  const [loading, setLoading] = useState(false)
+  const [semesters, setSemesters] = useState([]);
+  const [subjects, setSubjects] = useState([]);
+  const [newSemester, setNewSemester] = useState({
+    number: "",
+    subjectIds: [],
+  });
+  const [editingSemester, setEditingSemester] = useState(null);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(true)
+      setLoading(true);
       try {
         const [semesterRes, subjectRes] = await Promise.all([
-          axios.get("http://localhost:5000/api/superadmin/semesters"),
-          axios.get("http://localhost:5000/api/superadmin/subjects"),
-        ])
-        setSemesters(semesterRes.data)
-        setSubjects(subjectRes.data)
+          axios.get(
+            "http://super-admin-backend-two.vercel.app/api/superadmin/semesters"
+          ),
+          axios.get(
+            "http://super-admin-backend-two.vercel.app/api/superadmin/subjects"
+          ),
+        ]);
+        setSemesters(semesterRes.data);
+        setSubjects(subjectRes.data);
       } catch (err) {
-        console.error(err)
-        setError("Failed to fetch data")
+        console.error(err);
+        setError("Failed to fetch data");
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-    }
-    fetchData()
-  }, [])
+    };
+    fetchData();
+  }, []);
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target
+    const { name, value } = e.target;
     if (editingSemester) {
-      setEditingSemester((prev) => ({ ...prev, [name]: value }))
+      setEditingSemester((prev) => ({ ...prev, [name]: value }));
     } else {
-      setNewSemester((prev) => ({ ...prev, [name]: value }))
+      setNewSemester((prev) => ({ ...prev, [name]: value }));
     }
-  }
+  };
 
   const handleSubjectChange = (e) => {
-    const selectedOptions = Array.from(e.target.selectedOptions).map((option) => option.value)
+    const selectedOptions = Array.from(e.target.selectedOptions).map(
+      (option) => option.value
+    );
     if (editingSemester) {
       setEditingSemester((prev) => {
         // Merge previous and new, avoiding duplicates
-        const prevIds = prev.subjectIds || []
-        const merged = Array.from(new Set([...prevIds, ...selectedOptions]))
-        return { ...prev, subjectIds: merged }
-      })
+        const prevIds = prev.subjectIds || [];
+        const merged = Array.from(new Set([...prevIds, ...selectedOptions]));
+        return { ...prev, subjectIds: merged };
+      });
     } else {
-      setNewSemester((prev) => ({ ...prev, subjectIds: selectedOptions }))
+      setNewSemester((prev) => ({ ...prev, subjectIds: selectedOptions }));
     }
-  }
+  };
 
   const handleCreateSemester = async () => {
-    if (!newSemester.number || isNaN(newSemester.number) || newSemester.number < 1 || newSemester.number > 9) {
-      setError("Semester number must be between 1 and 9")
-      return
+    if (
+      !newSemester.number ||
+      isNaN(newSemester.number) ||
+      newSemester.number < 1 ||
+      newSemester.number > 9
+    ) {
+      setError("Semester number must be between 1 and 9");
+      return;
     }
 
-    setLoading(true)
+    setLoading(true);
     try {
-      const res = await axios.post("http://localhost:5000/api/superadmin/semesters", {
-        number: Number(newSemester.number),
-        subjectIds: newSemester.subjectIds,
-      })
-      setSemesters([...semesters, res.data])
-      setNewSemester({ number: "", subjectIds: [] })
-      setError("")
+      const res = await axios.post(
+        "http://super-admin-backend-two.vercel.app/api/superadmin/semesters",
+        {
+          number: Number(newSemester.number),
+          subjectIds: newSemester.subjectIds,
+        }
+      );
+      setSemesters([...semesters, res.data]);
+      setNewSemester({ number: "", subjectIds: [] });
+      setError("");
     } catch (err) {
-      console.error(err)
-      setError(err.response?.data?.error || "Failed to create semester")
+      console.error(err);
+      setError(err.response?.data?.error || "Failed to create semester");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   const handleEditSemester = (semester) => {
     setEditingSemester({
       _id: semester._id,
       number: semester.number,
       subjectIds: semester.subjects.map((sub) => sub._id),
-    })
-    setError("")
-  }
+    });
+    setError("");
+  };
 
   const handleUpdateSemester = async () => {
     if (
@@ -92,58 +118,66 @@ const SemesterManager = () => {
       editingSemester.number < 1 ||
       editingSemester.number > 9
     ) {
-      setError("Semester number must be between 1 and 9")
-      return
+      setError("Semester number must be between 1 and 9");
+      return;
     }
 
-    setLoading(true)
+    setLoading(true);
     try {
-      const res = await axios.put(`http://localhost:5000/api/superadmin/semesters/${editingSemester._id}`, {
-        number: Number(editingSemester.number),
-        subjectIds: editingSemester.subjectIds,
-      })
-      setSemesters(semesters.map((sem) => (sem._id === res.data._id ? res.data : sem)))
-      setEditingSemester(null)
-      setError("")
+      const res = await axios.put(
+        `http://super-admin-backend-two.vercel.app
+/api/superadmin/semesters/${editingSemester._id}`,
+        {
+          number: Number(editingSemester.number),
+          subjectIds: editingSemester.subjectIds,
+        }
+      );
+      setSemesters(
+        semesters.map((sem) => (sem._id === res.data._id ? res.data : sem))
+      );
+      setEditingSemester(null);
+      setError("");
     } catch (err) {
-      console.error(err)
-      setError(err.response?.data?.error || "Failed to update semester")
+      console.error(err);
+      setError(err.response?.data?.error || "Failed to update semester");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   const handleDeleteSemester = async (semesterId) => {
-    if (!window.confirm("Are you sure you want to delete this semester?")) return
+    if (!window.confirm("Are you sure you want to delete this semester?"))
+      return;
 
-    setLoading(true)
+    setLoading(true);
     try {
-      await axios.delete(`http://localhost:5000/api/superadmin/semesters/${semesterId}`)
-      setSemesters(semesters.filter((semester) => semester._id !== semesterId))
-      setError("")
+      await axios.delete(`http://super-admin-backend-two.vercel.app
+/api/superadmin/semesters/${semesterId}`);
+      setSemesters(semesters.filter((semester) => semester._id !== semesterId));
+      setError("");
     } catch (err) {
-      console.error(err)
-      setError(err.response?.data?.error || "Failed to delete semester")
+      console.error(err);
+      setError(err.response?.data?.error || "Failed to delete semester");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   // Helper to group subjects by department
   const groupSubjectsByDepartment = (subjects) => {
-    const grouped = {}
+    const grouped = {};
     subjects.forEach((subject) => {
-      const deptName = subject.department?.name || "N/A"
-      if (!grouped[deptName]) grouped[deptName] = []
-      grouped[deptName].push(subject)
-    })
-    return grouped
-  }
+      const deptName = subject.department?.name || "N/A";
+      if (!grouped[deptName]) grouped[deptName] = [];
+      grouped[deptName].push(subject);
+    });
+    return grouped;
+  };
 
   // Get all unique department names (including those with no subjects)
   const allDepartments = Array.from(
     new Set(subjects.map((s) => s.department?.name || "N/A"))
-  )
+  );
 
   return (
     <>
@@ -184,11 +218,15 @@ const SemesterManager = () => {
 
         <div className="grid md:grid-cols-2 gap-6">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Semester Number (1-9)</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Semester Number (1-9)
+            </label>
             <input
               type="number"
               name="number"
-              value={editingSemester ? editingSemester.number : newSemester.number}
+              value={
+                editingSemester ? editingSemester.number : newSemester.number
+              }
               onChange={handleInputChange}
               placeholder="Enter semester number"
               disabled={loading}
@@ -199,73 +237,97 @@ const SemesterManager = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Subjects</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Subjects
+            </label>
             <div className="border border-gray-300 rounded-md p-3 bg-white max-h-48 overflow-y-auto">
               {allDepartments.map((dept) => {
-                const deptSubjects = subjects.filter((s) => (s.department?.name || "N/A") === dept)
+                const deptSubjects = subjects.filter(
+                  (s) => (s.department?.name || "N/A") === dept
+                );
                 return (
                   <div key={dept} className="mb-3">
-                    <div className="font-semibold text-emerald-700 mb-1">{dept}</div>
+                    <div className="font-semibold text-emerald-700 mb-1">
+                      {dept}
+                    </div>
                     {deptSubjects.length > 0 ? (
                       deptSubjects.map((subject) => {
                         // Determine if subject is selected
-                        const selectedIds = editingSemester ? editingSemester.subjectIds : newSemester.subjectIds
-                        const checked = selectedIds.includes(subject._id)
+                        const selectedIds = editingSemester
+                          ? editingSemester.subjectIds
+                          : newSemester.subjectIds;
+                        const checked = selectedIds.includes(subject._id);
                         return (
-                          <label key={subject._id} className="flex items-center gap-2 mb-1 cursor-pointer text-sm">
+                          <label
+                            key={subject._id}
+                            className="flex items-center gap-2 mb-1 cursor-pointer text-sm"
+                          >
                             <input
                               type="checkbox"
                               value={subject._id}
                               checked={checked}
                               disabled={loading}
                               onChange={(e) => {
-                                const isChecked = e.target.checked
+                                const isChecked = e.target.checked;
                                 if (editingSemester) {
                                   setEditingSemester((prev) => {
-                                    let newIds = prev.subjectIds || []
+                                    let newIds = prev.subjectIds || [];
                                     if (isChecked) {
-                                      newIds = [...newIds, subject._id]
+                                      newIds = [...newIds, subject._id];
                                     } else {
-                                      newIds = newIds.filter((id) => id !== subject._id)
+                                      newIds = newIds.filter(
+                                        (id) => id !== subject._id
+                                      );
                                     }
-                                    return { ...prev, subjectIds: newIds }
-                                  })
+                                    return { ...prev, subjectIds: newIds };
+                                  });
                                 } else {
                                   setNewSemester((prev) => {
-                                    let newIds = prev.subjectIds || []
+                                    let newIds = prev.subjectIds || [];
                                     if (isChecked) {
-                                      newIds = [...newIds, subject._id]
+                                      newIds = [...newIds, subject._id];
                                     } else {
-                                      newIds = newIds.filter((id) => id !== subject._id)
+                                      newIds = newIds.filter(
+                                        (id) => id !== subject._id
+                                      );
                                     }
-                                    return { ...prev, subjectIds: newIds }
-                                  })
+                                    return { ...prev, subjectIds: newIds };
+                                  });
                                 }
                               }}
                             />
                             {subject.name}
                           </label>
-                        )
+                        );
                       })
                     ) : (
                       <div className="text-xs text-gray-400 italic">None</div>
                     )}
                   </div>
-                )
+                );
               })}
             </div>
-            <p className="mt-1 text-xs text-gray-500">Select or deselect subjects using checkboxes.</p>
+            <p className="mt-1 text-xs text-gray-500">
+              Select or deselect subjects using checkboxes.
+            </p>
             {/* Show selected subjects */}
             <div className="mt-2">
-              <span className="text-xs text-gray-700 font-semibold">Selected Subjects: </span>
+              <span className="text-xs text-gray-700 font-semibold">
+                Selected Subjects:{" "}
+              </span>
               <span className="text-xs text-gray-600">
-                {(editingSemester ? editingSemester.subjectIds : newSemester.subjectIds)
+                {(editingSemester
+                  ? editingSemester.subjectIds
+                  : newSemester.subjectIds
+                )
                   .map((id) => {
-                    const subj = subjects.find((s) => s._id === id)
-                    return subj ? subj.name : null
+                    const subj = subjects.find((s) => s._id === id);
+                    return subj ? subj.name : null;
                   })
                   .filter(Boolean)
-                  .join(", ") || <span className="italic text-gray-400">None</span>}
+                  .join(", ") || (
+                  <span className="italic text-gray-400">None</span>
+                )}
               </span>
             </div>
           </div>
@@ -329,32 +391,43 @@ const SemesterManager = () => {
                         <span className="inline-flex items-center justify-center bg-emerald-100 text-emerald-800 text-lg font-semibold h-8 w-8 rounded-full mr-2">
                           {semester.number}
                         </span>
-                        <h4 className="text-lg font-semibold text-gray-800">Semester {semester.number}</h4>
+                        <h4 className="text-lg font-semibold text-gray-800">
+                          Semester {semester.number}
+                        </h4>
                       </div>
 
                       {semester.subjects.length > 0 ? (
                         <div className="mt-3">
-                          <h5 className="text-sm font-medium text-gray-700 mb-2">Subjects:</h5>
+                          <h5 className="text-sm font-medium text-gray-700 mb-2">
+                            Subjects:
+                          </h5>
                           <ul className="bg-gray-50 rounded-md p-3 max-h-40 overflow-y-auto">
                             {semester.subjects.map((subject) => {
                               // Find the subject in the global subjects list to get the department if missing
-                              const fullSubject = subjects.find((s) => s._id === subject._id) || subject
+                              const fullSubject =
+                                subjects.find((s) => s._id === subject._id) ||
+                                subject;
                               return (
                                 <li
                                   key={subject._id}
                                   className="py-1 px-2 text-sm text-gray-700 border-b border-gray-100 last:border-0"
                                 >
-                                  <span className="font-medium">{subject.name}</span>
+                                  <span className="font-medium">
+                                    {subject.name}
+                                  </span>
                                   <span className="text-xs text-gray-500 ml-1">
-                                    (Dept: {fullSubject.department?.name || "N/A"})
+                                    (Dept:{" "}
+                                    {fullSubject.department?.name || "N/A"})
                                   </span>
                                 </li>
-                              )
+                              );
                             })}
                           </ul>
                         </div>
                       ) : (
-                        <p className="mt-2 text-sm text-gray-500 italic">No subjects assigned.</p>
+                        <p className="mt-2 text-sm text-gray-500 italic">
+                          No subjects assigned.
+                        </p>
                       )}
                     </div>
 
@@ -384,7 +457,7 @@ const SemesterManager = () => {
         )}
       </div>
     </>
-  )
-}
+  );
+};
 
-export default SemesterManager
+export default SemesterManager;
